@@ -57,6 +57,8 @@ document.addEventListener('DOMContentLoaded', function() {
         items.forEach((item)=>{
         item.addEventListener('click',(e)=>{
         var parent=item.parentNode;
+        var grand_parent=parent.parentNode;
+        grand_parent.removeChild(parent);
         parent.innerHTML=null;
         let idd=item.getAttribute('id');
         let new_idd=idd.slice(1);
