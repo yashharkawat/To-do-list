@@ -1,14 +1,32 @@
+let to_do_list = [];
+let id = 0;
+fetch('https://jsonplaceholder.typicode.com/todos')
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error('Network response was not OK');
+    }
+    return response.json();
+  })
+  .then((data) => {
+    // Process the received data
+    data.forEach((item)=>{
+        to_do_list.push({txt:`• ${item.title}`,id:id});
+        id++;
+        
+    })
+  })
+  .catch(error => {
+    // Handle any errors that occurred during the fetch request
+    console.log('Error:', error.message);
+  });
+
 document.addEventListener('DOMContentLoaded', function() {
-    let to_do_list = [];
-    let id = 0;
-    let num_of_items=0;
     function add(txt) {
         if (txt.length == 0) return;
 
         let text='• ' + txt;
         to_do_list.push({txt:text,id:id})
         id++;
-        num_of_items++;
     }
     function display_on_webpage(txt, id) {
         let item = document.querySelector('.display_list');
@@ -60,7 +78,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 let idd = item.getAttribute('id');
                 let new_idd = idd.slice(7);
                 to_do_list[new_idd].txt=-1;
-                num_of_items--;
                 display();
             });
         });
@@ -73,28 +90,16 @@ document.addEventListener('DOMContentLoaded', function() {
         par.appendChild(item);
     }
 
-    function empty() {
-        let item = document.createElement('h3');
-        item.innerText = 'Your to do list is empty, add some items to the list.';
-        let par = document.querySelector('.display_list');
-        par.appendChild(item);
-        item.style.color = '#ee3425';
-    }
 
     function display() {
         let item = document.querySelector('.display_list');
         item.innerHTML = null;
         list_heading();
-        if (num_of_items === 0) {
-            empty();
-        } 
-        else {
-            to_do_list.forEach((item)=>{
-                if(item.txt!=-1){
-                    display_on_webpage(item.txt, item.id);
-                }
-            })
-        }
+        to_do_list.forEach((item)=>{
+            if(item.txt!=-1){
+                display_on_webpage(item.txt, item.id);
+            }
+        })
     }
 
     document.querySelector('.save_button').addEventListener('click', () => {
@@ -124,4 +129,5 @@ document.addEventListener('DOMContentLoaded', function() {
         item.innerHTML = null;
     });
 });
+
 
