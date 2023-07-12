@@ -1,17 +1,15 @@
 document.addEventListener('DOMContentLoaded', function() {
-    let to_do_list = {};
-    let id = 1;
-
+    let to_do_list = [];
+    let id = 0;
+    let num_of_items=0;
     function add(txt) {
         if (txt.length == 0) return;
-        to_do_list[id] = '• ' + txt;
+
+        let text='• ' + txt;
+        to_do_list.push({txt:text,id:id})
         id++;
+        num_of_items++;
     }
-
-    function del(id) {
-        to_do_list.id = null;
-    }
-
     function display_on_webpage(txt, id) {
         let item = document.querySelector('.display_list');
 
@@ -46,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function() {
         element_with_delete.appendChild(element);
         element_with_delete.appendChild(del);
 
-        let new_id = 'a' + id;
+        let new_id = 'delete_' + id;
         element_with_delete.classList.add(new_id);
 
         del.setAttribute('id', new_id);
@@ -60,14 +58,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 grand_parent.removeChild(parent);
                 parent.innerHTML = null;
                 let idd = item.getAttribute('id');
-                let new_idd = idd.slice(1);
-                delete to_do_list[new_idd];
+                let new_idd = idd.slice(7);
+                to_do_list[new_idd].txt=-1;
+                num_of_items--;
                 display();
             });
         });
     }
 
-    function to_do() {
+    function list_heading() {
         let item = document.createElement('h2');
         item.innerText = 'My List';
         let par = document.querySelector('.display_list');
@@ -85,17 +84,16 @@ document.addEventListener('DOMContentLoaded', function() {
     function display() {
         let item = document.querySelector('.display_list');
         item.innerHTML = null;
-        let num_of_items = 0;
-        to_do();
-        for (let key in to_do_list) {
-            num_of_items++;
-        }
+        list_heading();
         if (num_of_items === 0) {
             empty();
-        } else {
-            for (let key in to_do_list) {
-                display_on_webpage(to_do_list[key], key);
-            }
+        } 
+        else {
+            to_do_list.forEach((item)=>{
+                if(item.txt!=-1){
+                    display_on_webpage(item.txt, item.id);
+                }
+            })
         }
     }
 
@@ -104,7 +102,7 @@ document.addEventListener('DOMContentLoaded', function() {
         let txt = item.value;
         item.value = null;
         add(txt);
-        display();
+        if(txt.length>0) display();
     });
 
     document.querySelector('.display').addEventListener('click', (e) => {
@@ -117,7 +115,7 @@ document.addEventListener('DOMContentLoaded', function() {
             let txt = item.value;
             item.value = null;
             add(txt);
-            display();
+            if(txt.length>0) display();
         }
     });
 
@@ -126,3 +124,4 @@ document.addEventListener('DOMContentLoaded', function() {
         item.innerHTML = null;
     });
 });
+
