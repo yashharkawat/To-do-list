@@ -77,3 +77,52 @@ input{
 }
 
 
+.save_input{
+    
+    margin-left: 10px;
+    padding: 2px;
+    width:50px;
+    border-radius: 10px;
+    background-color: #36BC22;
+    border: 1px solid #36BC22;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+.element_input{
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.delete {
+    background-color: #ee3425;
+    color: white;
+    border: 1px transparent;
+    border-radius: 8px;
+    text-align: center;
+    justify-content: center;
+    padding: 5px 7px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+.display_list {
+    display: flex;
+    flex-direction: column;
+    
+  }
+  
+ul {
+    align-items: center;
+    margin-bottom: 30px;
+  }
+  
+li{
+    margin-right: 50px;
+}
+  
+.to_do_element{
+    display: flex;
+}
+  
+  
