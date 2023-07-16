@@ -8,7 +8,11 @@ body{
     flex-direction: column;
     align-items: flex-start;
     cursor: pointer;
-    width:50%;
+    width:700px;
+    overflow-y: auto;
+    margin-left: auto;
+    margin-right: auto;
+    height:500px;
 }
 .display_on_page{
     display: flex;
@@ -54,9 +58,9 @@ body{
     flex-direction: column;
     margin-bottom: 50px;
 }
-input{
+.save{
     margin-right: 10px;
-    width:400px;
+    width:520px;
     border-radius: 10px;
     padding: 8px;
 }
@@ -77,23 +81,20 @@ input{
 }
 
 
-.save_input{
-    
-    margin-left: 10px;
-    padding: 2px;
-    width:50px;
-    border-radius: 10px;
-    background-color: #36BC22;
-    border: 1px solid #36BC22;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-}
+
 .element_input{
     display: flex;
-    margin-bottom: 10px;
+    justify-content: space-between;
+    width:600px;
+    margin-top: 15px;
+    margin-bottom: 20px;
+    margin-left: 30px;
 }
-
+.element_input input{
+    width:600px;
+    border-radius: 10px;
+    padding: 6px;
+}
 .delete {
     background-color: #ee3425;
     color: white;
@@ -104,25 +105,34 @@ input{
     padding: 5px 7px;
     font-weight: bold;
     cursor: pointer;
+    align-self: flex-end;
   }
   
-.display_list {
-    display: flex;
-    flex-direction: column;
-    
-  }
+
   
 ul {
     align-items: center;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
   }
   
-li{
-    margin-right: 50px;
-}
+
   
 .to_do_element{
     display: flex;
+    justify-content: space-between;
+    width:600px;
 }
   
-  
+.save_input{
+    
+    color: white;
+    background-color: #36BC22;
+    border: 1px transparent;
+    border-radius: 8px;
+    text-align: center;
+    justify-content: center;
+    padding: 5px 5px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-left: 20px;
+}

@@ -118,17 +118,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  function list_heading() {
-    let item = document.createElement('h2');
-    item.innerText = 'My List';
-    let par = document.querySelector('.display_list');
-    par.appendChild(item);
-  }
-
   function display() {
     let item = document.querySelector('.display_list');
     item.innerHTML = null;
-    list_heading();
     to_do_list.forEach((item) => {
       if (item.txt !== -1) {
         display_on_webpage(item.txt, item.id);
