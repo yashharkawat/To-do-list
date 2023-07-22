@@ -306,11 +306,15 @@ document.addEventListener('DOMContentLoaded', () => {
     input.classList.add('element_input');
     parent.replaceChild(input, text_element_parent);
     input_element.focus();
+    let task;
+    to_do_list.forEach((item)=>{
+      if(item.id==arr_id) task=item;
+    })
     document.addEventListener('keypress', (e) => {
       if (e.key === 'Enter') {
         text_element.textContent = input_element.value;
         parent.replaceChild(text_element_parent, input);
-        to_do_list[arr_id].txt = input_element.value;
+        task.txt = input_element.value;
         localStorage.setItem('to_do_list', JSON.stringify(to_do_list));
       }
     });
