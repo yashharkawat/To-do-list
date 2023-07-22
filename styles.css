@@ -2,13 +2,19 @@ body{
     font-family: "ubuntu";
     font-size: 16px;
 }
+.container{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
 .display_list{
     justify-content: space-between;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     cursor: pointer;
-    width:700px;
+    width:1200px;
     overflow-y: auto;
     margin-left: auto;
     margin-right: auto;
@@ -52,6 +58,7 @@ body{
     flex-direction: column;
     justify-content: space-between;
     padding: 20px;
+    width: 100%;
 }
 .list{
     display: flex;
@@ -59,7 +66,7 @@ body{
     margin-bottom: 50px;
 }
 .save{
-    margin-right: 10px;
+    margin-right: 20px;
     width:520px;
     border-radius: 10px;
     padding: 8px;
@@ -69,7 +76,6 @@ body{
 }
 .save_button{
     align-self: center;
-    margin-left: 10px;
     padding: 9px 7px;
     width:100px;
     border-radius: 10px;
@@ -99,17 +105,26 @@ body{
     background-color: #ee3425;
     color: white;
     border: 1px transparent;
-    border-radius: 8px;
+    border-radius: 5px;
     text-align: center;
-    justify-content: center;
+    
     padding: 5px 7px;
     font-weight: bold;
     cursor: pointer;
-    align-self: flex-end;
   }
-  
+h2{
+    margin-bottom: 10px;
+}
+.search_elements{
+    padding-bottom: 20px;
+}
+.search_elements input{
+    width:150px;
+    border-radius: 5px;
+    padding: 5px 7px;
+}
 
-  
+
 ul {
     align-items: center;
     margin-bottom: 20px;
@@ -119,10 +134,51 @@ ul {
   
 .to_do_element{
     display: flex;
-    justify-content: space-between;
-    width:600px;
+    
+    align-items: center;
+    border: 1px solid #000;
+    border-collapse: collapse;
+    margin-bottom: 0px;
+    margin-top: 0px;
+    min-height: 100px;
+    
 }
-  
+.delete,.due_date,.category,.priority,.subtask_container,.tag,.done_button{
+    width: 100px;
+    margin-right: 20px;
+}
+.due_date{
+    Background: #800080;
+    color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 5px 10px;
+        cursor: pointer;
+        font-weight: bold;
+}
+.subtask_btn{
+    Background: #FFD700;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-weight: bold;
+}
+.priority{
+    Background: #008080;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-weight: bold;
+    width:120px;
+}
+.task{
+    width:500px;
+    
+}
 .save_input{
     
     color: white;
@@ -136,3 +192,107 @@ ul {
     cursor: pointer;
     margin-left: 20px;
 }
+
+
+
+
+
+
+
+  
+ 
+  .to_do_element:hover {
+    background-color: #f9f9f9;
+  }
+  
+  
+  
+  .done_button {
+    
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 5px 10px;
+        cursor: pointer;
+        font-weight: bold;
+    
+  }
+  
+  .due_date,
+  .category,
+  .priority,
+  .subtask_btn {
+    margin-right: 20px;
+  }
+  
+  .subtask_container {
+    margin-left: 30px;
+  }
+  
+  .subtask_input {
+    display: none;
+  }
+  
+  .subtask_element {
+    margin-top: 5px;
+  }
+  
+  
+  
+  
+  .add_filter {
+    margin-bottom: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  .filter {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .filter label {
+    margin-right: 10px;
+  }
+  
+  .view_backlogs {
+    background-color: #17a2b8;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  .display_backlogs {
+    color: #17a2b8;
+  }
+  
+  
+  
+  .sort_by_dropdown{
+    width:100px;
+    padding: 5px 8px;
+    border-radius: 5px;
+  }
+  .sort_by_container{
+    margin-bottom: 20px;
+  }
+  .sort_filter_container{
+    display: flex;
+    justify-content: space-between;
+  }
+  .filter_button{
+    height:200px;
+  }
+
+
+

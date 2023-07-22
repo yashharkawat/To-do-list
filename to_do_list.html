@@ -9,8 +9,10 @@
     <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Ubuntu:regular,bold&subset=Latin">
 </head>
 <body>
-    
     <h1 style="text-align: center;">To Do List :</h1>
+    <div class="container">
+    <div>
+        
     <div class="to_do_list">
         <div class="list">
             <label for="text"><h2>Add Items to Your List: </h2></label>
@@ -26,6 +28,42 @@
         </div>
         
     </div>
-    <div class="display_list"></div>
+    </div>
+    <div >
+        <div class="search_elements">
+            <input id="search" type="text" placeholder="search tasks">
+            <input id="search_tags" type="text" placeholder="search by tags">
+            <input id="search_category" type="text" placeholder="search by category">
+        </div>
+        
+        <div class="sort_filter_container">
+            <div class="sort_by_container">
+                <label for="sort_by">Sort By:</label>
+                <select id="sort_by" class="sort_by_dropdown">
+                    <option value="none">None</option>
+                    <option value="due_date">Due Date</option>
+                    <option value="priority">Priority</option>
+                </select>
+            </div>
+            <div class="filter_button">
+                <button class="add_filter">Add filter</button>
+            </div>
+          </div>
+          
+    
+        
+    
+       
+        
+    </div>
+    
+</div>
+    <div>
+        <button class="view_backlogs">View Backlogs</button>
+    </div>
+      <!-- Add Filter Button -->
+      <div class="display_list"></div>
+    
+    
 </body>
 </html>
