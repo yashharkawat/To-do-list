@@ -15,12 +15,16 @@ fetch('https://jsonplaceholder.typicode.com/todos')
       data.forEach((item) => {
         to_do_list.push({ txt: item.title, id: id, done:0 ,due_date:'',category:'',subtasks:[],priority:'None',tags:[]});
         id++;
+        activity_log.push( `This task "${item.title}" was added`);
       });
+      
       localStorage.setItem('to_do_list', JSON.stringify(to_do_list));
       localStorage.setItem('id', id);
+      localStorage.setItem('activity_log',JSON.stringify(activity_log));
     } else {
       id = localStorage.getItem('id');
       to_do_list = JSON.parse(localStorage.getItem('to_do_list'));
+      activity_log=localStorage.getItem('activity_log');
     }
   })
   .catch((error) => {
@@ -30,12 +34,17 @@ fetch('https://jsonplaceholder.typicode.com/todos')
 document.addEventListener('DOMContentLoaded', () => {
 
 
+  
+  
+
   function add(txt) {
     if (txt.length === 0) return;
     to_do_list.push({ txt: txt, id: id,done:0,due_date:'',category:'',subtasks:[],priority:'None',tags:[]});
     id++;
     localStorage.setItem('to_do_list', JSON.stringify(to_do_list));
     localStorage.setItem('id', id);
+    activity_log.push( `This task "${txt}" was added`);
+    localStorage.setItem('activity_log',JSON.stringify(activity_log));
   }
 
   function add_sub_task(task_id, subtask) {
@@ -83,6 +92,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   function display_on_webpage(task) {
+    const act=document.querySelector('.activity')
+    act.innerText=null;
     let txt=task.txt;
     let id=task.id;
     let item = document.querySelector('.display_list');
@@ -101,10 +112,13 @@ document.addEventListener('DOMContentLoaded', () => {
     done_button.textContent = to_do_item.done ? 'Completed' : 'Incomplete';
     done_button.classList.add('done_button');
     done_button.addEventListener('click', (e) => {
+      
       to_do_item.done=1^to_do_item.done;
       done_button.textContent=to_do_item.done ? 'Completed' : 'Incomplete';
       localStorage.setItem('to_do_list', JSON.stringify(to_do_list));
-      
+      if(to_do_item.done) activity_log.push( `This task "${to_do_item.txt}" was marked as completed`);
+      else activity_log.push( `This task "${to_do_item.txt}" was marked as not completed`);
+      localStorage.setItem('activity_log',JSON.stringify(activity_log));
     });
 
     const due_date_element = document.createElement('button');
@@ -119,12 +133,22 @@ document.addEventListener('DOMContentLoaded', () => {
       input_due_date_element.focus();
       input_due_date_element.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') {
-          const new_due_date = input_due_date_element.value;
-          to_do_item.due_date=input_due_date_element.value;
-          due_date_element.textContent = new_due_date ;
-          localStorage.setItem('to_do_list', JSON.stringify(to_do_list));
           
-        }
+          //console.log(input_due_date_element.value);
+          if(input_due_date_element.value!==''){
+            //console.log('hi');
+            const new_due_date = input_due_date_element.value;
+            to_do_item.due_date=input_due_date_element.value;
+            due_date_element.textContent = new_due_date ;
+            localStorage.setItem('to_do_list', JSON.stringify(to_do_list));
+            activity_log.push( `This task "${to_do_item.txt}" due date changed to ${new_due_date}`);
+            localStorage.setItem('activity_log',JSON.stringify(activity_log));
+          }
+          else{
+            due_date_element.textContent = to_do_item.due_date || 'No Due Date';
+          }
+          due_date_element.removeChild(input_due_date_element);
+          }
       });
     });
 
@@ -145,6 +169,8 @@ document.addEventListener('DOMContentLoaded', () => {
           to_do_item.category=input_category_element.value;
           category_element.textContent = `Category: ${new_category}` ;
           localStorage.setItem('to_do_list', JSON.stringify(to_do_list));
+          activity_log.push( `This task "${to_do_item.txt} "category changed to ${new_category}`);
+          localStorage.setItem('activity_log',JSON.stringify(activity_log));
         }
       });
     });
@@ -172,6 +198,8 @@ document.addEventListener('DOMContentLoaded', () => {
           priority_element.innerText = `priority: ${new_priority}`;
           localStorage.setItem('to_do_list', JSON.stringify(to_do_list));
           display();
+          activity_log.push( `This task "${to_do_item.txt}" priority changed to ${new_priority}`);
+          localStorage.setItem('activity_log',JSON.stringify(activity_log));
         }
       });
     });
@@ -202,6 +230,8 @@ document.addEventListener('DOMContentLoaded', () => {
           subtask_input.value = '';
         }
         subtask_input.style.display = 'none';
+        activity_log.push( `This task "${to_do_item.txt}" subtask added ${subtask}`);
+        localStorage.setItem('activity_log',JSON.stringify(activity_log));
       }
     });
 
@@ -269,8 +299,12 @@ document.addEventListener('DOMContentLoaded', () => {
         let idd = item.getAttribute('id');
         let new_idd = idd.slice(7);
         const index = to_do_list.findIndex((item) => item.id == new_idd);
+        
+        activity_log.push( `This task "${to_do_list[index].txt}" was deleted`);
         to_do_list.splice(index, 1);
         localStorage.setItem('to_do_list', JSON.stringify(to_do_list));
+        localStorage.setItem('activity_log',JSON.stringify(activity_log));
+        
         display();
       });
     });
@@ -321,7 +355,12 @@ document.addEventListener('DOMContentLoaded', () => {
     save_button.addEventListener('click', (e) => {
       text_element.textContent = input_element.value;
       parent.replaceChild(text_element_parent, input);
-      to_do_list[arr_id].txt = input_element.value;
+      let task;
+      to_do_list.forEach((item)=>{
+        if(item.id==arr_id) task=item;
+      })
+      task.txt = input_element.value;
+      
       localStorage.setItem('to_do_list', JSON.stringify(to_do_list));
     });
   }
@@ -364,6 +403,8 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelector('.add_filter').addEventListener('click', () => {
     const element=document.querySelector('.add_filter');
     const parent=element.parentNode;
+    parent.innerHTML=null;
+    parent.appendChild(element);
 
     const due_date_filter=document.createElement('div');
     const due_date_filter_text=document.createElement('div');
@@ -372,9 +413,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const from_due_date_element=document.createElement('input');
     from_due_date_element.placeholder='From due date';
     from_due_date_element.type='Date';
+    from_due_date_element.classList.add('from_due_date');
     const to_due_date_element=document.createElement('input');
     to_due_date_element.placeholder='To due date';
     to_due_date_element.type='Date';
+    to_due_date_element.classList.add('to_due_date');
     due_date_filter.append(due_date_filter_text,from_due_date_element,to_due_date_element);
 
     const category_filter=document.createElement('div');
@@ -384,6 +427,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const input_category_element=document.createElement('input');
     input_category_element.placeholder='enter category';
     input_category_element.type='Text';
+    input_category_element.classList.add('input_category');
 
     category_filter.append(category_filter_text,input_category_element);
 
@@ -398,14 +442,14 @@ document.addEventListener('DOMContentLoaded', () => {
       option_element.value = option;
       priority_input_element.appendChild(option_element);
     });
-
+    priority_filter.classList.add('priority_filter')
     priority_filter.append(priority_filter_text,priority_input_element);
 
     const apply_button=document.createElement('button');
     apply_button.innerText="Apply Filters";
 
     parent.append(due_date_filter,category_filter,priority_filter,apply_button);
-
+    apply_button.classList.add('apply_button')
     apply_button.addEventListener('click',(e)=>{
 
       const start_due_date=from_due_date_element.value;
@@ -584,7 +628,19 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-
+  document.querySelector('.activity_log').addEventListener('click',(e)=>{
+    
+    activity_log=JSON.parse(localStorage.getItem('activity_log'));
+    let activity='';
+    activity_log.forEach((log)=>{
+      activity+=log;
+      activity+='\n';
+    })
+    const item=document.querySelector('.activity')
+    item.innerText=activity;
+    const display_list=document.querySelector('.display_list');
+    display_list.innerHTML=null;
+  });
 
 
 
