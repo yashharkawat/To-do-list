@@ -15,7 +15,11 @@ fetch('https://jsonplaceholder.typicode.com/todos')
       data.forEach((item) => {
         to_do_list.push({ txt: item.title, id: id, done:0 ,due_date:'',category:'',subtasks:[],priority:'None',tags:[]});
         id++;
-        activity_log.push( `This task "${item.title}" was added`);
+        try {
+          activity_log.push( `This task "${item.title}" was added`);
+        } catch (error) {
+          console.log(error);
+        }
       });
       
       localStorage.setItem('to_do_list', JSON.stringify(to_do_list));
@@ -43,7 +47,12 @@ document.addEventListener('DOMContentLoaded', () => {
     id++;
     localStorage.setItem('to_do_list', JSON.stringify(to_do_list));
     localStorage.setItem('id', id);
-    activity_log.push( `This task "${txt}" was added`);
+    
+    try {
+      activity_log.push( `This task "${txt}" was added`);
+    } catch (error) {
+      console.log(error);
+    }
     localStorage.setItem('activity_log',JSON.stringify(activity_log));
   }
 
@@ -114,8 +123,21 @@ document.addEventListener('DOMContentLoaded', () => {
       to_do_item.done=1^to_do_item.done;
       done_button.textContent=to_do_item.done ? 'Completed' : 'Incomplete';
       localStorage.setItem('to_do_list', JSON.stringify(to_do_list));
-      if(to_do_item.done) activity_log.push( `This task "${to_do_item.txt}" was marked as completed`);
-      else activity_log.push( `This task "${to_do_item.txt}" was marked as not completed`);
+      if(to_do_item.done){
+        try {
+          activity_log.push( `This task "${to_do_item.txt}" was marked as completed`);
+        } catch (error) {
+          console.log(error);
+        }
+      } 
+      else{
+        try {
+          activity_log.push( `This task "${to_do_item.txt}" was marked as not completed`);
+        } catch (error) {
+          console.log(error);
+        }
+      } 
+      
       localStorage.setItem('activity_log',JSON.stringify(activity_log));
     });
 
@@ -138,7 +160,12 @@ document.addEventListener('DOMContentLoaded', () => {
             to_do_item.due_date=input_due_date_element.value;
             due_date_element.textContent = new_due_date ;
             localStorage.setItem('to_do_list', JSON.stringify(to_do_list));
-            activity_log.push( `This task "${to_do_item.txt}" due date changed to ${new_due_date}`);
+            
+            try {
+              activity_log.push( `This task "${to_do_item.txt}" due date changed to ${new_due_date}`);
+            } catch (error) {
+              console.log(error);
+            }
             localStorage.setItem('activity_log',JSON.stringify(activity_log));
           }
           else{
@@ -166,7 +193,12 @@ document.addEventListener('DOMContentLoaded', () => {
           to_do_item.category=input_category_element.value;
           category_element.textContent = `Category: ${new_category}` ;
           localStorage.setItem('to_do_list', JSON.stringify(to_do_list));
-          activity_log.push( `This task "${to_do_item.txt} "category changed to ${new_category}`);
+          try {
+            activity_log.push( `This task "${to_do_item.txt} "category changed to ${new_category}`);
+          } catch (error) {
+            console.log(error);
+          }
+          
           localStorage.setItem('activity_log',JSON.stringify(activity_log));
         }
       });
@@ -195,7 +227,11 @@ document.addEventListener('DOMContentLoaded', () => {
           priority_element.innerText = `priority: ${new_priority}`;
           localStorage.setItem('to_do_list', JSON.stringify(to_do_list));
           display();
-          activity_log.push( `This task "${to_do_item.txt}" priority changed to ${new_priority}`);
+          try {
+            activity_log.push( `This task "${to_do_item.txt}" priority changed to ${new_priority}`);
+          } catch (error) {
+            console.log(error);
+          }
           localStorage.setItem('activity_log',JSON.stringify(activity_log));
         }
       });
@@ -227,7 +263,11 @@ document.addEventListener('DOMContentLoaded', () => {
           subtask_input.value = '';
         }
         subtask_input.style.display = 'none';
-        activity_log.push( `This task "${to_do_item.txt}" subtask added ${subtask}`);
+        try {
+          activity_log.push( `This task "${to_do_item.txt}" subtask added ${subtask}`);
+        } catch (error) {
+          console.log(error);
+        }
         localStorage.setItem('activity_log',JSON.stringify(activity_log));
       }
     });
@@ -606,7 +646,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function display_backlogs() {
     const backlogs = to_do_list.filter((task) => {
       const due_date=new Date(task.due_date);
-      console.log(due_date);
+      //console.log(due_date);
       if(due_date<Date.now()){
         return true;
       }
@@ -621,14 +661,23 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  function reverseString(str) {
+    return str.split("\n").reverse().join("\n");
+  }
   document.querySelector('.activity_log').addEventListener('click',(e)=>{
     
     activity_log=JSON.parse(localStorage.getItem('activity_log'));
     let activity='';
-    activity_log.forEach((log)=>{
-      activity+=log;
-      activity+='\n';
-    })
+    try{
+      activity_log.forEach((log)=>{
+        activity+=log;
+        activity+='\n';
+      })
+    }
+    catch(e){
+      console.log(e);
+    }
+    activity=reverseString(activity);
     const item=document.querySelector('.activity')
     item.innerText=activity;
     const display_list=document.querySelector('.display_list');
