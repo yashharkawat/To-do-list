@@ -89,8 +89,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   //drag and drop
-
-
   function display_on_webpage(task) {
     const act=document.querySelector('.activity')
     act.innerText=null;
@@ -134,9 +132,8 @@ document.addEventListener('DOMContentLoaded', () => {
       input_due_date_element.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') {
           
-          //console.log(input_due_date_element.value);
           if(input_due_date_element.value!==''){
-            //console.log('hi');
+          
             const new_due_date = input_due_date_element.value;
             to_do_item.due_date=input_due_date_element.value;
             due_date_element.textContent = new_due_date ;
@@ -249,7 +246,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const tag_element = document.createElement('div');
     let tag_text='';
-    console.log(to_do_item);
           to_do_item.tags.forEach((tag)=>{
             tag_text+=`#${tag} `;
           })
@@ -282,6 +278,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 
+    //draggable
     element_with_delete.append(element,subtask_container,done_button,due_date_element,priority_element,category_element,tag_element,del);
     let new_id = 'delete_' + id;
     element_with_delete.classList.add(new_id);
@@ -300,8 +297,8 @@ document.addEventListener('DOMContentLoaded', () => {
         let new_idd = idd.slice(7);
         const index = to_do_list.findIndex((item) => item.id == new_idd);
         
-        activity_log.push( `This task "${to_do_list[index].txt}" was deleted`);
         to_do_list.splice(index, 1);
+        
         localStorage.setItem('to_do_list', JSON.stringify(to_do_list));
         localStorage.setItem('activity_log',JSON.stringify(activity_log));
         
@@ -320,9 +317,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //drag and drop
 
+    const list_items=document.querySelectorAll('.to_do_element');
     
-
-  }
+    list_items.forEach((item)=>{
+    item.draggable=true;
+    item.addEventListener('dragstart',drag_start);
+    item.addEventListener('drop',drag_drop);
+    item.addEventListener('dragover',drag_over);
+    item.addEventListener('dragenter',drag_enter);
+    item.addEventListener('dragleave',drag_leave);
+  })
+}
 
   function convert_to_input(element_id) {
     let arr_id = element_id.slice(7);
@@ -398,6 +403,8 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelector('.hide').addEventListener('click', (e) => {
     let item = document.querySelector('.display_list');
     item.innerHTML = null;
+    const act=document.querySelector('.activity')
+    act.innerText=null;
   });
 
   document.querySelector('.add_filter').addEventListener('click', () => {
@@ -499,8 +506,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   //tag search
-
-
   document.getElementById('search_tags').addEventListener('keyup',(e)=>{
     const search_string=e.target.value;
     if(search_string==''){
@@ -512,19 +517,14 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   function search_by_tag(searchTag) {
-    // Convert the searchTag to lowercase for case-insensitive search
     const search_tag = searchTag.toLowerCase();
-  
-    // Filter the to_do_list based on whether any tag matches the search string
     const filtered_tasks = to_do_list.filter((task) => {
       if (task.tags && task.tags.length > 0) {
-        // Check if any tag matches the search string
         return task.tags.some((tag) => tag==search_tag);
       }
-      return false; // If there are no tags, return false to exclude the task from the filtered list
+      return false; 
     });
   
-    // Display only the filtered tasks
     const display_list = document.querySelector('.display_list');
     display_list.innerHTML = '';
     filtered_tasks.forEach((task) => {
@@ -532,8 +532,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
   
-  //search by category
-
   document.getElementById('search_category').addEventListener('keyup',(e)=>{
     const search_string=e.target.value;
     if(search_string==''){
@@ -547,19 +545,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   function search_by_category(search_category) {
-    // Convert the search_category to lowercase for case-insensitive search
     search_category = search_category.toLowerCase();
-  
-    // Filter the to_do_list based on whether the category matches the search string
     const filtered_tasks = to_do_list.filter((task) => {
       if (task.category) {
-        // Check if the category matches the search string
         return task.category.toLowerCase().includes(search_category);
       }
-      return false; // If there is no category, return false to exclude the task from the filtered list
+      return false; 
     });
   
-    // Display only the filtered tasks
     const display_list = document.querySelector('.display_list');
     display_list.innerHTML = '';
     filtered_tasks.forEach((task) => {
@@ -642,11 +635,57 @@ document.addEventListener('DOMContentLoaded', () => {
     display_list.innerHTML=null;
   });
 
-
-
   //drag and drop
 
-  
+  let drag_start_index,drag_end_index;
+  function drag_enter(){
+   this.classList.add('over');
+  }
+  function drag_over(e){
+    e.preventDefault();
+  }
+  function drag_drop(){
+    this.classList.remove('over');
+    drag_end_index=+this.closest('ul').getAttribute('class').split(' ')[0].slice(7);
 
+    const item_one=document.querySelector(`.delete_${drag_start_index}`);
+    const item_two=document.querySelector(`.delete_${drag_end_index}`);
+    
+    const parent = item_one.parentNode;
+    const reference = item_two.nextSibling;
+  
+    if(reference!==item_one){
+      parent.insertBefore(item_two, item_one);
+      parent.insertBefore(item_one, reference);
+    }
+    else{
+      parent.insertBefore(item_one, item_two);
+    }
+
+
+    let index1,index2;
+    to_do_list.forEach((item,index)=>{
+      if(item.id==drag_start_index){
+        index1=index;
+        task1=item;
+      } 
+      else if(item.id==drag_end_index){
+        index2=index;
+        task2=item;
+      } 
+    })
+    to_do_list[index1]=task2;
+    to_do_list[index2]=task1;
+    
+    localStorage.setItem('to_do_list', JSON.stringify(to_do_list));
+    
+  }
+  function drag_leave(){
+    this.classList.remove('over');
+  }
+  function drag_start(){
+    drag_start_index=+this.closest('ul').getAttribute('class').split(' ')[0].slice(7);
+  }
+  
 
 });

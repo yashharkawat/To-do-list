@@ -1,339 +1,358 @@
-body{
-    font-family: "ubuntu";
-    font-size: 16px;
-}
-.container{
-    display: flex;
-    justify-content: space-evenly;
-    align-items: baseline;
+.body {
+font-family: "ubuntu";
+font-size: 16px;
 }
 
-.display_list{
-    justify-content: space-between;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    cursor: pointer;
-    width:1300px;
-    overflow-y: auto;
-    margin-left: auto;
-    margin-right: auto;
-    height:500px;
-}
-.display_on_page{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    padding-bottom: 16px;
-    margin-bottom: 40px;
-}
-.display{
-    margin-right: 10px;
-    padding:8px 16px;
-    width:120px;
-    color:#000;
-    background-color: #fbdc00;
-    border: 1px solid #fbdc00;
-    border-radius: 16px;
-    font-weight: bold;
-    cursor: pointer;
-}
-.hide{
-    margin-left: 10px;
-    padding:8px 20px;
-    width:120px;
-    color:#000;
-    background-color: #e5dfdf ;
-    border: 1px solid #e5dfdf ;
-    border-radius: 16px;
-    font-weight: bold;
-    cursor: pointer;
+.container {
+display: flex;
+justify-content: space-evenly;
+align-items: baseline;
+height: 280px;
 }
 
-.to_do_list{
-    
-    margin-top: 20px;
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 20px;
-    width: 100%;
-}
-.list{
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 50px;
-}
-.save{
-    margin-right: 10px;
-    width:300px;
-    border-radius: 10px;
-    padding: 8px;
-}
-.input_save{
-    display: flex;
-}
-.save_button{
-    align-self: center;
-    padding: 9px 7px;
-    width:100px;
-    border-radius: 10px;
-    background-color: #36BC22;
-    border: 1px solid #36BC22;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
+.display_list {
+justify-content: space-between;
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+cursor: pointer;
+width: 1300px;
+overflow-y: auto;
+margin-left: auto;
+margin-right: auto;
+max-height: 500px;
+margin-top: 10px;
 }
 
-
-
-.element_input{
-    display: flex;
-    justify-content: space-between;
-    width:600px;
-    margin-top: 15px;
-    margin-bottom: 20px;
-    margin-left: 30px;
+.logs {
+margin-top: 10px;
 }
-.element_input input{
-    width:600px;
-    border-radius: 10px;
-    padding: 6px;
+
+.display_on_page {
+display: flex;
+flex-direction: row;
+justify-content: center;
+padding-bottom: 16px;
 }
+
+.display {
+margin-right: 10px;
+padding: 8px 16px;
+width: 120px;
+color: #000;
+background-color: #fbdc00;
+border: 1px solid #fbdc00;
+border-radius: 16px;
+font-weight: bold;
+cursor: pointer;
+}
+
+.hide {
+margin-left: 10px;
+padding: 8px 20px;
+width: 120px;
+color: #000;
+background-color: #e5dfdf;
+border: 1px solid #e5dfdf;
+border-radius: 16px;
+font-weight: bold;
+cursor: pointer;
+}
+
+.to_do_list {
+margin-top: 20px;
+align-items: center;
+display: flex;
+flex-direction: column;
+justify-content: space-between;
+padding: 20px;
+width: 100%;
+}
+
+.list {
+display: flex;
+flex-direction: column;
+margin-bottom: 50px;
+}
+
+.save {
+margin-right: 10px;
+width: 300px;
+border-radius: 10px;
+padding: 8px;
+}
+
+.input_save {
+display: flex;
+}
+
+.save_button {
+align-self: center;
+padding: 9px 7px;
+width: 100px;
+border-radius: 10px;
+background-color: #36bc22;
+border: 1px solid #36bc22;
+color: white;
+font-weight: bold;
+cursor: pointer;
+}
+
+.element_input {
+display: flex;
+justify-content: space-between;
+width: 600px;
+margin-top: 15px;
+margin-bottom: 20px;
+margin-left: 30px;
+}
+
+.element_input input {
+width: 600px;
+border-radius: 10px;
+padding: 6px;
+}
+
 .delete {
-    background-color: #ee3425;
-    color: white;
-    border: 1px transparent;
-    border-radius: 5px;
-    text-align: center;
-    
-    padding: 5px 7px;
-    font-weight: bold;
-    cursor: pointer;
-  }
-h2{
-    margin-bottom: 10px;
-}
-.search_elements{
-    padding-bottom: 20px;
-}
-.search_elements input{
-    width:150px;
-    border-radius: 5px;
-    padding: 5px 7px;
+background-color: #ee3425;
+color: white;
+border: 1px transparent;
+border-radius: 5px;
+text-align: center;
+padding: 5px 7px;
+font-weight: bold;
+cursor: pointer;
 }
 
+h2 {
+margin-bottom: 10px;
+}
+
+.search_elements {
+padding-bottom: 20px;
+}
+
+.search_elements input {
+width: 150px;
+border-radius: 5px;
+padding: 5px 7px;
+}
 
 ul {
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
-
-  
-.to_do_element{
-    display: flex;
-    
-    align-items: center;
-    border: 1px solid #000;
-    border-collapse: collapse;
-    margin-bottom: 0px;
-    margin-top: 0px;
-    min-height: 100px;
-    
-}
-.delete,.due_date,.category,.priority,.subtask_container,.tag,.done_button{
-    width: 100px;
-    margin-right: 20px;
+align-items: center;
+margin-bottom: 20px;
 }
 
-.due_date{
-    Background: #800080;
-    color: white;
-        border: none;
-        border-radius: 5px;
-        padding: 5px 10px;
-        cursor: pointer;
-        font-weight: bold;
-}
-.subtask_btn{
-    Background: #FFD700;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 5px 10px;
-    cursor: pointer;
-    font-weight: bold;
-}
-.priority{
-    Background: #008080;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 5px 10px;
-    cursor: pointer;
-    font-weight: bold;
-    width:120px;
-}
-.task{
-    width:320px;
-    
-}
-.save_input{
-    
-    color: white;
-    background-color: #36BC22;
-    border: 1px transparent;
-    border-radius: 8px;
-    text-align: center;
-    justify-content: center;
-    padding: 5px 5px;
-    font-weight: bold;
-    cursor: pointer;
-    margin-left: 20px;
+.to_do_element {
+display: flex;
+align-items: center;
+border: 1px solid #000;
+border-collapse: collapse;
+margin-bottom: 0px;
+margin-top: 0px;
+min-height: 130px;
+cursor: default;
 }
 
+.delete,
+.due_date,
+.category,
+.priority,
+.subtask_container,
+.tag,
+.done_button {
+width: 100px;
+margin-right: 20px;
+}
 
+.due_date {
+background: #800080;
+color: white;
+border: none;
+border-radius: 5px;
+padding: 5px 10px;
+cursor: pointer;
+font-weight: bold;
+}
 
+.subtask_btn {
+background: #ffd700;
+color: white;
+border: none;
+border-radius: 5px;
+padding: 5px 10px;
+cursor: pointer;
+font-weight: bold;
+}
 
+.priority {
+background: #008080;
+color: white;
+border: none;
+border-radius: 5px;
+padding: 5px 10px;
+cursor: pointer;
+font-weight: bold;
+width: 120px;
+}
 
-
-
-  
- 
-  .to_do_element:hover {
-    background-color: #f9f9f9;
-  }
-  
-  
-  
-  .done_button {
-    
-        background-color: #007bff;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        padding: 5px 10px;
-        cursor: pointer;
-        font-weight: bold;
-    
-  }
-  
-  .due_date,
-  .category,
-  .priority,
-  .subtask_btn {
-    margin-right: 20px;
-  }
-  
-  .subtask_container {
-    margin-left: 30px;
-  }
-  
-  .subtask_input {
-    display: none;
-  }
-  
-  .subtask_element {
-    margin-top: 5px;
-  }
-  
-  
-  
-  
-  .add_filter {
-    margin-bottom: 10px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 5px 10px;
-    cursor: pointer;
-    font-weight: bold;
-  }
-  
-  .filter {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-  }
-  
-  .filter label {
-    margin-right: 10px;
-  }
-  
-  .view_backlogs ,.activity_log{
-    background-color: #17a2b8;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 5px 10px;
-    cursor: pointer;
-    font-weight: bold;
-    margin-bottom: 20px;
-    
-  }
-  .view_backlogs{
-    margin-left: 10%;
-  }
-  .activity_log{
-    background-color:#FFA500;
-    margin-left: 10px;
-  }
-  .display_backlogs {
-    color: #17a2b8;
-  }
-  
-  
-  
-  .sort_by_dropdown{
-    width:100px;
-    padding: 5px 8px;
-    border-radius: 5px;
-  }
-  .sort_by_container{
-    margin-bottom: 20px;
-  }
-  .sort_filter_container{
-    display: flex;
-    justify-content: space-between;
-  }
-  .filter_button{
-    height:250px;
-    width:300px;
-  }
-  .from_due_date,.to_due_date{
-    margin-right: 20px;
-    width:100px;
-    padding: 3px 6px;
-    border-radius: 5px;
-    margin-bottom: 5px;
-    margin-top: 2px;
-  }
-  .input_category{
+.task {
+width: 250px;
+}
+.subtask_container{
     width:200px;
-    padding: 3px 6px;
-    border-radius: 5px;
-    margin-bottom: 5px;
-    margin-top: 2px;
-  }
-  .priority_filter{
-    width:150px;
-    padding: 3px 6px;
-    border-radius: 5px;
-    margin-bottom: 5px;
-    margin-top: 2px;
-  }
+}
 
-  .apply_button{
-    Background: #FFA500;
-    font-weight:bold;
-    width:100px;
-    padding: 3px 6px;
-    border-radius: 5px;
-    margin-bottom: 5px;
-    margin-top: 2px;
-    border:none;
-    cursor:pointer;
-  }
+.save_input {
+color: white;
+background-color: #36bc22;
+border: 1px transparent;
+border-radius: 8px;
+text-align: center;
+justify-content: center;
+padding: 5px 5px;
+font-weight: bold;
+cursor: pointer;
+margin-left: 20px;
+}
+
+.to_do_element:hover {
+background-color: #f9f9f9;
+}
+
+.done_button {
+background-color: #007bff;
+color: white;
+border: none;
+border-radius: 5px;
+padding: 5px 10px;
+cursor: pointer;
+font-weight: bold;
+}
+
+.due_date,
+.category,
+.priority,
+.subtask_btn {
+margin-right: 20px;
+}
+
+.subtask_container {
+margin-left: 30px;
+}
+
+.subtask_input {
+display: none;
+}
+
+.subtask_element {
+margin-top: 5px;
+}
+
+.add_filter {
+margin-bottom: 10px;
+background-color: #007bff;
+color: white;
+border: none;
+border-radius: 5px;
+padding: 5px 10px;
+cursor: pointer;
+font-weight: bold;
+}
+
+.filter {
+display: flex;
+align-items: center;
+margin-bottom: 10px;
+}
+
+.filter label {
+margin-right: 10px;
+}
+
+.view_backlogs,
+.activity_log {
+background-color: #17a2b8;
+color: white;
+border: none;
+border-radius: 5px;
+padding: 5px 10px;
+cursor: pointer;
+font-weight: bold;
+margin-bottom: 20px;
+}
+
+.view_backlogs {
+margin-left: 10%;
+}
+
+.activity_log {
+background-color: #ffa500;
+margin-left: 10px;
+}
+
+.display_backlogs {
+color: #17a2b8;
+}
+
+.sort_by_dropdown {
+width: 100px;
+padding: 5px 8px;
+border-radius: 5px;
+}
+
+.sort_by_container {
+margin-bottom: 20px;
+}
+
+.sort_filter_container {
+display: flex;
+justify-content: space-between;
+}
+
+.filter_button {
+height: 250px;
+width: 300px;
+}
+
+.from_due_date,
+.to_due_date {
+margin-right: 20px;
+width: 100px;
+padding: 3px 6px;
+border-radius: 5px;
+margin-bottom: 5px;
+margin-top: 2px;
+}
+
+.input_category {
+width: 200px;
+padding: 3px 6px;
+border-radius: 5px;
+margin-bottom: 5px;
+margin-top: 2px;
+}
+
+.priority_filter {
+width: 150px;
+padding: 3px 6px;
+border-radius: 5px;
+margin-bottom: 5px;
+margin-top: 2px;
+}
+
+.apply_button {
+background: #ffa500;
+font-weight: bold;
+width: 100px;
+padding: 3px 6px;
+border-radius: 5px;
+margin-bottom: 5px;
+margin-top: 2px;
+border: none;
+cursor: pointer;
+}
+
+.over {
+background-color: #808080;
+}
