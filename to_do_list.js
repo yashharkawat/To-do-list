@@ -96,6 +96,10 @@ document.addEventListener('DOMContentLoaded', () => {
     display();
   }
 
+  //reminder
+  
+  
+  //reminder
   //drag and drop
   function display_on_webpage(task) {
     const act=document.querySelector('.activity')
@@ -317,8 +321,80 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 
+    //reminder
+
+    const reminder_element=document.createElement('div');
+    reminder_element.innerText='Reminder';
+    
+    const reminder=document.createElement('div');
+
+    const reminder_date=document.createElement('input');
+    reminder_date.setAttribute('type','date');
+    reminder_date.value=task.reminder_date;
+   // console.log(task.reminder_date);
+    
+    const reminder_time=document.createElement('input');
+    reminder_time.setAttribute('type','time');
+    reminder_time.value=task.reminder_time;
+
+    reminder.append(reminder_date,reminder_time);
+   
+
+    const reminder_button=document.createElement('button');
+    reminder_button.innerText='Add reminder';
+    reminder_element.append(reminder,reminder_button);
+
+
+    reminder_date.addEventListener('change',(e)=>{
+      task.reminder_date=e.target.value;
+      //console.log(e.target.value);
+      
+      localStorage.setItem('to_do_list', JSON.stringify(to_do_list));
+    })
+    reminder_time.addEventListener('change',(e)=>{
+      task.reminder_time=e.target.value;
+      //console.log(e.target.value);
+      
+      localStorage.setItem('to_do_list', JSON.stringify(to_do_list));
+    })
+    reminder_button.addEventListener('click',(e)=>{
+      
+
+      const reminder_date_time = `${task.reminder_date}T${task.reminder_time}`;
+  
+      const reminder_timestamp = new Date(reminder_date_time).getTime();
+  
+      const current_time = new Date().getTime();
+      const time_remaining = reminder_timestamp - current_time;
+        
+      //console.log(time_remaining);
+      if (time_remaining <= 0) {
+        alert(`The task: "${task.txt}" is  over!`);
+        task.reminder_over=true;
+        
+      } else {
+        const reminder_interval = setInterval(() => {
+          const current_time = new Date().getTime();
+          const time_remaining = reminder_timestamp - current_time;
+         // console.log(time_remaining);
+          if (time_remaining <= 0) {
+            clearInterval(reminder_interval);
+            alert(`The task: "${task.txt}" is  over!`);
+            task.reminder_over=true;
+          }
+        }, 10000); 
+      }
+
+
+    })
+
+    
+    
+
+    //reminder
+
     //draggable
-    element_with_delete.append(element,subtask_container,done_button,due_date_element,priority_element,category_element,tag_element,del);
+    element_with_delete.append(element,subtask_container,reminder_element,done_button,due_date_element,priority_element,category_element,tag_element,del);
     let new_id = 'delete_' + id;
     element_with_delete.classList.add(new_id);
     element_with_delete.classList.add("to_do_element");
