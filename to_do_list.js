@@ -11,8 +11,11 @@ fetch('https://jsonplaceholder.typicode.com/todos')
     return response.json();
   })
   .then((data) => {
-    if (localStorage.length === 0) {
+    const list=localStorage.getItem('to_do_list');
+
+    if (list==null) {
       data.forEach((item) => {
+        
         to_do_list.push({ txt: item.title, id: id, done:0 ,due_date:'',category:'',subtasks:[],priority:'None',tags:[]});
         id++;
         try {
@@ -36,10 +39,6 @@ fetch('https://jsonplaceholder.typicode.com/todos')
   });
 
 document.addEventListener('DOMContentLoaded', () => {
-
-
-  
-  
 
   function add(txt) {
     if (txt.length === 0) return;
