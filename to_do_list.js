@@ -42,7 +42,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function add(txt) {
     if (txt.length === 0) return;
-    to_do_list.push({ txt: txt, id: id,done:0,due_date:'',category:'',subtasks:[],priority:'None',tags:[]});
+    const date=auto_complete(txt);
+    if(date!==null) to_do_list.push({ txt: txt, id: id,done:0,due_date:date,category:'',subtasks:[],priority:'None',tags:[]});
+    else to_do_list.push({ txt: txt, id: id,done:0,due_date:'',category:'',subtasks:[],priority:'None',tags:[]});
+    
     id++;
     localStorage.setItem('to_do_list', JSON.stringify(to_do_list));
     localStorage.setItem('id', id);
@@ -95,6 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     display();
   }
+
 
   //reminder
   function set_reminder(task){
@@ -170,7 +174,77 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   
   //reminder
-  //drag and drop
+  
+
+  //auto complete
+  function get_date(v){
+
+  const next_date = new Date();
+  next_date.setDate(next_date.getDate() + v);
+  const day= next_date.getDate();
+  const month = next_date.getMonth() + 1; 
+  const year = next_date.getFullYear();
+
+  const date = `${year}-${month}-${day}`;
+  return date;
+  }
+  function get_next_date(day) {
+    const today = new Date();
+    const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']
+  
+    const target_day=days.indexOf(day);
+    const current_day = today.getDay();
+    const days_left = (target_day + 7 - current_day) % 7;
+  
+    const next_date = new Date(today);
+    next_date.setDate(today.getDate() + days_left);
+    
+    const next_day =next_date.getDate();
+    const month = next_date.getMonth() + 1; 
+    const year = next_date.getFullYear();
+
+    const date = `${year}-${month}-${next_day}`;
+    //console.log(date);
+    return date;
+  }
+  function convert(date) {
+    //console.log(date[0]);
+    const arr=date[0].split('/');
+    if(arr[0].length==1) arr[0]=`0${arr[0]}`;
+    if(arr[1].length==1) arr[1]=`0${arr[1]}`;
+    const new_date = `${arr[2]}-${arr[1]}-${arr[0]}`;
+    //console.log(date);
+    return new_date;
+  }
+  
+  function auto_complete(task){
+    const regex=new RegExp('[0-9][0-9]?/[0-9][0-9]?/[0-9][0-9][0-9][0-9]');
+    let date = task.match(regex);
+    if(date!==null) return convert(date);
+
+    const regex_today=new RegExp('today');
+    const regex_tomorrow=new RegExp('tomorrow');
+    const regex_week=new RegExp('(monday|tuesday|wednesday|thursday|friday|saturday|sunday)');
+
+    if(regex_today.test(task.toLowerCase())){
+      return get_date(0)
+    }
+    else if(regex_tomorrow.test(task.toLowerCase())){
+      return get_date(1)
+    }
+    
+    let day=task.toLowerCase().match(regex_week);
+    if(day!==null){
+      const next_day=day[0];
+      return get_next_date(next_day)
+    }
+    return date;
+  }
+
+  //auto complete
+
+
+
   function display_on_webpage(task) {
     const act=document.querySelector('.activity')
     act.innerText=null;
@@ -214,41 +288,55 @@ document.addEventListener('DOMContentLoaded', () => {
       localStorage.setItem('activity_log',JSON.stringify(activity_log));
     });
 
-    const due_date_element = document.createElement('button');
-    due_date_element.textContent = to_do_item.due_date || 'No Due Date';
+    
+    const due_date_element = document.createElement('div');
+    const due_date_button = document.createElement('button');
+    due_date_button.textContent = to_do_item.due_date || 'No Due Date';
+    
+    due_date_element.appendChild(due_date_button);
+
     due_date_element.classList.add('due_date');
+    
+    const input_due_date_element = document.createElement('input');
+    input_due_date_element.setAttribute('type','date');
+    input_due_date_element.value = to_do_item.due_date ;
+    
+    
     due_date_element.addEventListener('click', (e) => {
-      const input_due_date_element = document.createElement('input');
-      input_due_date_element.type = 'date';
-      input_due_date_element.value = to_do_item.due_date ;
-      due_date_element.textContent = '';
-      due_date_element.appendChild(input_due_date_element);
+      const num_of_child=due_date_element.childElementCount;
+      
+      if(num_of_child<2) due_date_element.append(input_due_date_element);
       input_due_date_element.focus();
-      input_due_date_element.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
+      input_due_date_element.classList.add('input_due_date_element');
+    });
+    
+    document.addEventListener('keypress',(e)=>{
+      if(e.key==='Enter'){
+        if(input_due_date_element.value!==''){
+      
+          const new_due_date = input_due_date_element.value;
+          to_do_item.due_date=input_due_date_element.value;
+          due_date_button.textContent = new_due_date ;
+          localStorage.setItem('to_do_list', JSON.stringify(to_do_list));
           
-          if(input_due_date_element.value!==''){
-          
-            const new_due_date = input_due_date_element.value;
-            to_do_item.due_date=input_due_date_element.value;
-            due_date_element.textContent = new_due_date ;
-            localStorage.setItem('to_do_list', JSON.stringify(to_do_list));
-            
-            try {
-              activity_log.push( `This task ${to_do_item.txt} due date changed to ${new_due_date}`);
-            } catch (error) {
-              console.log(error);
-            }
-            localStorage.setItem('activity_log',JSON.stringify(activity_log));
+          try {
+            activity_log.push( `This task ${to_do_item.txt} due date changed to ${new_due_date}`);
+          } catch (error) {
+            console.log(error);
+          }
+          localStorage.setItem('activity_log',JSON.stringify(activity_log));
           }
           else{
-            due_date_element.textContent = to_do_item.due_date || 'No Due Date';
+            due_date_button.textContent = to_do_item.due_date || 'No Due Date';
           }
-          due_date_element.removeChild(input_due_date_element);
-          }
-      });
-    });
 
+          const num_of_child=due_date_element.childElementCount;
+          if(num_of_child>=2)
+          {
+            due_date_element.removeChild(input_due_date_element);
+          }
+      }
+    })
     const category_element = document.createElement('div');
     category_element.textContent = `Category: ${to_do_item.category}`|| 'Category: ';
     category_element.classList.add('category');
@@ -454,8 +542,9 @@ document.addEventListener('DOMContentLoaded', () => {
     let arr_id = element_id.slice(7);
     let text_element = document.getElementById(element_id);
     let text_content = text_element.textContent;
-    let text_element_parent = text_element.parentNode;
-    let parent = text_element_parent.parentNode;
+    
+    //let text_element_parent = text_element.parentNode;
+    let parent = text_element.parentNode;
     let input_element = document.createElement('input');
     input_element.value = text_content;
     let save_button = document.createElement('button');
@@ -464,7 +553,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let input = document.createElement('div');
     input.append(input_element, save_button);
     input.classList.add('element_input');
-    parent.replaceChild(input, text_element_parent);
+    parent.replaceChild(input, text_element);
     input_element.focus();
     let task;
     to_do_list.forEach((item)=>{
@@ -473,20 +562,24 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('keypress', (e) => {
       if (e.key === 'Enter') {
         text_element.textContent = input_element.value;
-        parent.replaceChild(text_element_parent, input);
+        parent.replaceChild(text_element, input);
         task.txt = input_element.value;
+        const due_date=auto_complete(task.txt);
+        if(due_date!==null) task.due_date=due_date;
         localStorage.setItem('to_do_list', JSON.stringify(to_do_list));
       }
     });
     save_button.addEventListener('click', (e) => {
       text_element.textContent = input_element.value;
-      parent.replaceChild(text_element_parent, input);
+      parent.replaceChild(text_element, input);
       let task;
       to_do_list.forEach((item)=>{
         if(item.id==arr_id) task=item;
       })
       task.txt = input_element.value;
-      
+      const due_date=auto_complete(task.txt);
+      if(due_date!==null) task.due_date=due_date;
+
       localStorage.setItem('to_do_list', JSON.stringify(to_do_list));
     });
   }

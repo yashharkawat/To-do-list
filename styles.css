@@ -111,9 +111,8 @@ cursor: pointer;
 display: flex;
 justify-content: space-between;
 width: 600px;
-margin-top: 15px;
-margin-bottom: 20px;
-margin-left: 30px;
+margin-left: -10px;
+
 }
 
 .element_input input {
@@ -174,7 +173,8 @@ width: 100px;
 margin-right: 20px;
 }
 
-.due_date {
+.due_date button{
+width: 100px;
 background: #800080;
 color: white;
 border: none;
